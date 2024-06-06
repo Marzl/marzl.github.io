@@ -1,4 +1,23 @@
-/*general */
+/* Reset */
 * {
+    padding: 0;
+    margin: 0;
     font-family: "Roboto Serif", serif;
+    box-sizing: border-box;
  }
+
+/* Variables */
+
+:root {
+   --main-color: #548689;
+   --main-text-color: #FFF;
+   --border-color: #999;
+   --bio-bg-color: #1E2A3A;
+   --bio-border-color: #293544;
+   --about-bg-color: #111821;
+}
+
+/* General */
+.highlight {
+   color: var(--main-color);
+}
