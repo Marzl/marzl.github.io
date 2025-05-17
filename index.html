@@ -1,71 +1,592 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfólio Marcelo</title>
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Serif:ital,opsz,wght@0,8..144,100..900;1,8..144,100..900&display=swap" rel="stylesheet">
-    <!-- Dev Icon Fonts-->
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-    <!-- CSS do HTML-->
-    <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Marcelo Guedes | Desenvolvedor</title>
+  <meta name="description" content="Portfólio de Marcelo Guedes, desenvolvedor em formação com foco em soluções web modernas.">
+  
+  <!-- Tailwind CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Serif:wght@400;700&display=swap">
+  <!-- Devicon Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  
+  <style>
+    body {
+      font-family: 'Roboto Serif', serif;
+      scroll-behavior: smooth;
+    }
+    .section {
+      scroll-margin-top: 100px;
+    }
+
+    #typewriter-text {
+      overflow: hidden; 
+      white-space: nowrap; 
+      border-right: .15em solid rgb(81, 162, 255); 
+      animation: typing 1.5s steps(20, end), 
+                 blink-caret .75s step-end infinite; 
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: rgb(81, 162, 255); }
+    }
+
+        .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 40px;
+      height: 40px;
+      cursor: pointer;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+    .hamburger-line {
+      width: 100%;
+      height: 2px;
+      background-color: white;
+      margin-bottom: 6px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .hamburger-line:last-child {
+      margin-bottom: 0;
+    }
+    .hamburger.active .hamburger-line:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+    .hamburger.active .hamburger-line:nth-child(2) {
+      opacity: 0;
+    }
+    .hamburger.active .hamburger-line:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+    .nav-menu {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 80px;
+      right: 0;
+      background-color: rgb(3, 7, 18);
+      width: 100%;
+      text-align: center;
+      padding: 20px 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      z-index: 10;
+    }
+    .nav-menu.active {
+      display: flex;
+    }
+    .nav-menu a {
+      padding: 15px 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.2rem;
+      transition: color 0.3s;
+    }
+    .nav-menu a:hover {
+      color: #8ec5ff;
+    }
+    @media (max-width: 768px) {
+      .hamburger {
+        display: flex;
+      }
+      .hidden {
+        display: none;
+      }
+      .md\:flex {
+        display: none;
+      }
+      .nav-menu {
+        display: none;
+      }
+    }
+  </style>
 </head>
-<body>
-    <main id="container">
-        <aside id="bio-container">
-            <h2>Marcelo Guedes</h2>
-            <img src="img/Marcelo.jpg" alt="Marcelo Guedes">
-            <p>Olá, meu nome é Marcelo e pretendo ser <span class="highlight">Desenvolvedor</span>.</p>
-            <p id="welcome-text">Seja bem-vindo(a)!</p>
-            <ul id="social-container">
-                <li><a href="https://www.linkedin.com/in/marcelo-guedes-dos-reis-938097256/" target="_blank"><ion-icon name="logo-linkedin"></ion-icon></a></li>
-                <li><a href="https://www.instagram.com/marcelo_ads1/" target="_blank"><ion-icon name="logo-instagram"></ion-icon></a></li>
-            </ul>
-            <div id="email-container">
-                <ion-icon name="mail-outline"></ion-icon> <a href="mailto:zmarcelox@gmail.com.br">zmarcelox@gmail.com.br</a>
+<body style="background-color:rgb(3, 7, 18); color: rgba(255, 255, 255, 0.911);">
+  <canvas id="background-canvas" class="fixed inset-0 -z-10"></canvas>
+  <div class="container mx-auto px-4 py-8 relative z-10">
+    <!-- NAVBAR -->
+    <nav class="flex justify-between items-center mb-20 py-4">
+      <div class="text-xl font-bold">
+        <span class="text-white">MARCELO GUEDES</span>
+        <span class="block text-sm text-gray-400">DESENVOLVEDOR</span>
+      </div>
+      <div class="hidden md:flex space-x-6">
+        <a href="#home" class="text-blue-400 hover:opacity-80 transition-opacity">INÍCIO</a>
+        <a href="#about" class="hover:text-blue-400 transition-colors">SOBRE</a>
+        <a href="#skills" class="hover:text-blue-400 transition-colors">HABILIDADES</a>
+        <a href="#portfolio" class="hover:text-blue-400 transition-colors">PROJETOS</a>
+        <a href="#contact" class="hover:text-blue-400 transition-colors">CONTATO</a>
+      </div>
+      <button class="hamburger md:hidden flex flex-col justify-center items-center w-8 h-8" aria-label="Menu">
+        <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-white mb-1"></span>
+        <span class="hamburger-line w-6 h-0.5 bg-white"></span>
+      </button>
+    </nav>
+
+    <!-- HOME -->
+    <section id="home" class="mb-32 section">
+      <div class="flex flex-col md:flex-row gap-12">
+        <div class="md:w-1/2">
+          <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <span class="text-blue-400">Marcelo Guedes</span><br>
+            <span id="typewriter-text">Desenvolvedor em formação</span>
+          </h1>
+            
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="mb-6">
+                  <button id="saibaMaisBtn" aria-expanded="false" aria-controls="sobreContent" class="flex items-center px-4 py-2 bg-transparent border-2 border-blue-400 text-blue-300 font-medium rounded-lg hover:bg-blue-500 hover:text-white transition-all duration-300 group focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                    <span class="mr-2">Saiba mais sobre mim</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform duration-300 transform group-aria-expanded:rotate-90" fill="none" viewBox="0 0 24 24" stroke="#8ec5ff" aria-hidden="true">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </button>
+                  <div id="sobreContent" class="hidden mt-4">
+                    <p class="text-lg text-gray-400 mb-6 leading-relaxed text-justify">
+                      Sou estudante de <span style="color: #51a2ff;">Análise e Desenvolvimento de Sistemas</span> na <span style="color: #51a2ff;">Universidade Paulista (UNIP)</span>,
+                      com paixão por <span style="color: #51a2ff;">desenvolvimento web</span> e resolução de problemas. <br>
+                      Estou constantemente aprendendo novas <span style="color: #51a2ff;">tecnologias</span> e buscando oportunidades
+                      para aplicar meus conhecimentos em <span style="color: #51a2ff;">projetos desafiadores</span> que agreguem valor aos usuários.
+                    </p>
+                  </div>
+                </div>
             </div>
-        </aside>
-        <section id="about-container">
-            <h1 id="name">Marcelo Guedes</h1>
-            <p id="title"><span class="highlight">Futuro Desenvolvedor</span></p>
-            <p class="description">Sou estudante de análise e desenvolvimento de sistemas na universidade paulista (unip) e <span class="highlight">estou em busca de uma oportunidade na area de TI</span> para aplicar na prática todo o conhecimento adquirido, tanto dentro quanto fora da faculdade, na área de tecnologia da informação.</p>
-            <p class="description">Comprometo-me a entregar <span class="highlight">resultados de forma consistente</span>, sempre buscando contribuir com ideias inovadoras e soluções criativas para os desafios apresentados e estou ansioso para <span class="highlight">integrar-me a uma equipe</span> que valorize o crescimento profissional e a excelência no desenvolvimento de soluções tecnológicas.</p>
-            <a href="https://github.com/marzl" id="btn-projects"><ion-icon name="share-social-outline"></ion-icon> <span>Ver Projetos</span></a>
-            <h2 id="skills-section-title">Meus Conhecimentos</h2>
-            <p class="description">Tecnologias que estou familiarizado:</p>
-            <div id="skills-container">
-                <div class="skills-box">
-                    <p class="skills-title">Front-end</p>
-                    <i class="devicon-html5-plain colored"></i>
-                    <i class="devicon-javascript-plain colored"></i>
-                </div>
-                <div class="skills-box">
-                    <p class="skills-title">Back-end</p>
-                    <i class="devicon-php-plain colored"></i>
-                    <i class="devicon-python-plain colored"></i>
-                    <i class="devicon-c-plain colored"></i>
-                    <i class="devicon-csharp-plain colored"></i>
-                </div>
-                <div class="skills-box">
-                    <p class="skills-title">Banco de Dados</p>
-                    <i class="devicon-mysql-plain colored"></i>
-                </div>
-                <div class="skills-box">
-                    <p class="skills-title">Plataformas</p>
-                    <i class="devicon-windows11-original colored"></i>
-                </div>
-                <div class="skills-box">
-                    <p class="skills-title">Software</p>
-                    <i class="devicon-visualstudio-plain colored"></i>
-                </div>
+          <p class="text-xl text-gray-400 mb-8 italic">
+            " Criando soluções digitais com foco em experiência do usuário e performance. "
+          </p>
+          <div class="flex gap-4">
+            <a href="https://drive.google.com/uc?export=download&id=1xnmOBgdmEgl1-zT_e1kAvKi-wqGhVg8p" class="px-6 py-3 bg-blue-400 text-gray-900 font-semibold rounded-lg hover:bg-blue-500 transition-colors">
+              Baixar CV
+            </a>
+            <a href="#portfolio" class="px-6 py-3 border border-blue-400 text-blue-400 font-semibold rounded-lg hover:bg-blue-400 hover:text-gray-900 transition-colors">
+              Ver Projetos
+            </a>
+            
+          </div>
+                      <div class="flex justify-center md:justify-start gap-4 mt-6">
+                      <a href="https://www.linkedin.com/in/marcelo-guedes-dos-reis-938097256/" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" class="w-5 h-5" alt="LinkedIn">
+                      </a>
+                      <a href="https://github.com/marzl" target="_blank" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" class="w-5 h-5" alt="GitHub">
+                      </a>
+                    </div>
+        </div>
+          <div class="md:w-1/2 flex justify-center">
+          <img id="github-photo" alt="Foto de Perfil" class="w-64 h-64 md:w-80 md:h-80 rounded-full object-cover border-4 border-blue-400 shadow-lg">
+        </div>
+      </div>
+    </section>
+
+    <!-- HABILIDADES -->
+    <section id="skills" class="mb-32 section">
+      <h2 class="text-3xl font-bold text-blue-400 mb-2">HABILIDADES & FORMAÇÃO</h2>
+      <div class="w-16 h-1 bg-blue-400 mb-8"></div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="md:w-1/2">
+          <h3 class="text-xl font-bold mb-4">Minhas Habilidades</h3>
+          <div class="space-y-4">
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">HTML/CSS</span>
+                <span class="text-blue-400">85%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-blue-400 h-2 rounded-full" style="width: 80%"></div>
+              </div>
             </div>
-        </section>
-    </main>
-    <!-- Ion Icons -->
-    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">JavaScript</span>
+                <span class="text-blue-400">75%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-blue-400 h-2 rounded-full" style="width: 75%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">Tailwind</span>
+                <span class="text-blue-400">58%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-blue-400 h-2 rounded-full" style="width: 58%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">Banco de Dados</span>
+                <span class="text-blue-400">72%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-blue-400 h-2 rounded-full" style="width: 72%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between mb-1">
+                <span class="text-gray-400">C#</span>
+                <span class="text-blue-400">65%</span>
+              </div>
+              <div class="w-full bg-gray-800 rounded-full h-2">
+                <div class="bg-blue-400 h-2 rounded-full" style="width: 65%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <h3 class="text-xl font-bold mb-6 text-white">Tecnologias</h3>
+          
+          <div class="grid grid-cols-2 gap-4">
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="w-8 h-8" alt="HTML">
+              <span>HTML</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="w-8 h-8" alt="CSS">
+              <span>CSS</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="w-8 h-8" alt="JavaScript">
+              <span>JavaScript</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" class="w-8 h-8" alt="React">
+              <span>React</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" class="w-8 h-8" alt="Git">
+              <span>Git</span>
+            </div>
+            <div class="flex items-center gap-3 p-4 bg-gray-800 rounded-lg">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg" class="w-8 h-8" alt="Tailwind">
+              <span>Tailwind</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJETOS -->
+    <section id="portfolio" class="mb-32 section">
+      <h2 class="text-3xl font-bold text-blue-400 mb-2">MEUS PROJETOS</h2>
+      <div class="w-16 h-1 bg-blue-400 mb-8"></div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div class="bg-gray-800 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-blue-400/20 transition-shadow">
+          <img src="img/worldle.png" alt="Projeto Worldle" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Worldle</h3>
+            <p class="text-gray-400 mb-4">Um jogo digital dinâmico que testa conhecimentos sobre geografia, cultura e curiosidades de países ao redor do mundo</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-2">
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">HTML</span>
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">CSS</span>
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">JavaScript</span>
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">API Rest</span>
+              </div>
+              <a href="https://github.com/Marzl/worldle" target="_blank" class="text-blue-400 hover:underline">Ver código</a>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-gray-800 rounded-lg overflow-hidden hover:shadow-lg hover:shadow-blue-400/20 transition-shadow">
+          <img src="img/jokenpo.png" alt="Projeto Jokenpo" class="w-full h-48 object-cover">
+          <div class="p-6">
+            <h3 class="text-xl font-bold mb-2">Jokenpo</h3>
+            <p class="text-gray-400 mb-4">Um jogo digital dinâmico de Jokenpo.</p>
+            <div class="flex justify-between items-center">
+              <div class="flex gap-2">
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">HTML</span>
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">CSS</span>
+                <span class="px-2 py-1 bg-gray-700 text-xs rounded">JavaScript</span>
+              </div>
+              <a href="https://github.com/Marzl/Jokenpo" target="_blank" class="text-blue-400 hover:underline">Ver código</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTATO -->
+    <section id="contact" class="mb-16 section">
+      <h2 class="text-3xl font-bold text-blue-400 mb-2">CONTATO</h2>
+      <div class="w-16 h-1 bg-blue-400 mb-8"></div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div>
+          <h3 class="text-xl font-bold mb-6">Vamos conversar!</h3>
+          <p class="text-gray-400 mb-8 leading-relaxed">
+            Estou aberto a oportunidades e colaborações. Se você tem um projeto em mente ou quer discutir possibilidades, entre em contato através do formulário ou pelos meios abaixo.
+          </p>
+          
+          <div class="space-y-6">
+            <div class="flex items-start gap-4">
+              <div class="mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold">Email</h4>
+                <a href="mailto:zmarcelox@gmail.com" class="text-gray-400 hover:text-blue-400 transition-colors">
+                  zmarcelox@gmail.com
+                </a>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold">Telefone</h4>
+                <p class="text-gray-400">(11) 95226-1236</p>
+              </div>
+            </div>
+            
+            <div class="flex items-start gap-4">
+              <div class="mt-1">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4 class="font-semibold">Localização</h4>
+                <p class="text-gray-400">São Paulo, SP</p>
+              </div>
+            </div>
+
+          </div>
+        </div>    
+        <div>
+          <form id="contact-form" action="https://formspree.io/f/mkgovqde" method="POST" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label for="name" class="block text-sm font-medium text-gray-400 mb-2">Nome</label>
+                <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-400 transition-colors" required>
+              </div>
+              <div>
+                <label for="email" class="block text-sm font-medium text-gray-400 mb-2">Email</label>
+                <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-400 transition-colors" required>
+              </div>
+            </div>
+            <div>
+              <label for="subject" class="block text-sm font-medium text-gray-400 mb-2">Assunto</label>
+              <input type="text" id="subject" name="subject" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-400 transition-colors" required>
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-gray-400 mb-2">Mensagem</label>
+              <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-blue-400 transition-colors resize-none" required></textarea>
+            </div>
+            <div>
+              <button type="submit" class="w-full px-8 py-3 bg-blue-400 text-gray-900 font-semibold rounded-lg hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50">
+                Enviar Mensagem
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 py-12 mt-16">
+      <div class="container mx-auto px-4">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <div class="mb-6 md:mb-0">
+            <div class="text-xl font-bold">
+              <span class="text-white">MARCELO GUEDES</span>
+              <span class="block text-sm text-gray-400">DESENVOLVEDOR</span>
+            </div>
+          </div>
+          
+          <div class="flex space-x-6 mb-6 md:mb-0">
+            <a href="#home" class="text-gray-400 hover:text-blue-400 transition-colors">Início</a>
+            <a href="#about" class="text-gray-400 hover:text-blue-400 transition-colors">Sobre</a>
+            <a href="#skills" class="text-gray-400 hover:text-blue-400 transition-colors">Habilidades</a>
+            <a href="#portfolio" class="text-gray-400 hover:text-blue-400 transition-colors">Projetos</a>
+            <a href="#contact" class="text-gray-400 hover:text-blue-400 transition-colors">Contato</a>
+          </div>
+          
+          <div class="flex space-x-4">
+            <a href="https://www.linkedin.com/in/marcelo-guedes-dos-reis-938097256/" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" class="w-5 h-5" alt="LinkedIn">
+            </a>
+            <a href="https://github.com/marzl" target="_blank" class="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-400 transition-colors">
+              <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" class="w-5 h-5" alt="GitHub">
+            </a>
+          </div>
+        </div>
+        
+        <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
+          <p>© 2025 Marcelo Guedes. Todos os direitos reservados.</p>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      fetch('https://api.github.com/users/marzl')
+        .then(response => response.json())
+        .then(data => {
+          if(data.avatar_url) {
+            document.getElementById('github-photo').src = data.avatar_url;
+          }
+        })
+        .catch(error => console.error('Erro ao carregar foto do GitHub:', error));
+      
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelectorAll('nav a');
+      
+      hamburger.addEventListener('click', function() {
+        document.body.classList.toggle('mobile-menu-open');
+      });
+      
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          document.body.classList.remove('mobile-menu-open');
+        });
+      });
+    });
+  </script>
+
+  <script>
+  const canvas = document.getElementById('background-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  let particles = [];
+  const numParticles = 140;
+
+  function randomRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = randomRange(2, 12);
+      this.color = `rgba(30, 26, 77, ${randomRange(0.4, 0.8)})`;
+      this.speedX = randomRange(-0.8, 0.8);
+      this.speedY = randomRange(-0.8, 0.8);
+      this.opacity = 0.5;
+      this.opacitySpeed = randomRange(0.001, 0.002);
+    }
+
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x > canvas.width || this.x < 0) this.speedX *= -1;
+      if (this.y > canvas.height || this.y < 0) this.speedY *= -1;
+
+      this.opacity += this.opacitySpeed;
+      if (this.opacity >= 1 || this.opacity <= 0) {
+        this.opacitySpeed *= -1;
+      }
+      this.color = `rgba(30, 26, 77, ${this.opacity})`;
+    }
+
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    for (let i = 0; i < numParticles; i++) {
+      particles.push(new Particle());
+    }
+  }
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(particle => {
+      particle.update();
+      particle.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+
+  window.onload = () => {
+    initParticles();
+    animate();
+  };
+
+  window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    initParticles();
+  });
+</script>
+
+<script>
+          const phrases = ['Desenvolvedor Web Jr', 'Consultor Dynamics Jr', 'Desenvolvedor IA Jr'];
+          const element = document.getElementById('typewriter-text');
+          let phraseIndex = 0;
+          let charIndex = 0;
+          let isDeleting = false;
+
+          function typeWriter() {
+            const currentPhrase = phrases[phraseIndex];
+            if (isDeleting) {
+              element.textContent = currentPhrase.substring(0, charIndex - 1);
+              charIndex--;
+            } else {
+              element.textContent = currentPhrase.substring(0, charIndex + 1);
+              charIndex++;
+            }
+            let typeSpeed = 100;
+            if (isDeleting) typeSpeed /= 2;
+            if (!isDeleting && charIndex === currentPhrase.length) {
+              typeSpeed = 2000;
+              isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+              isDeleting = false;
+              phraseIndex = (phraseIndex + 1) % phrases.length;
+            }
+            setTimeout(typeWriter, typeSpeed);
+          }
+          typeWriter();
+</script>
+
+<script>
+const saibaMaisBtn = document.getElementById('saibaMaisBtn');
+const sobreContent = document.getElementById('sobreContent');
+const arrowIcon = document.querySelector('#saibaMaisBtn svg');
+
+saibaMaisBtn.addEventListener('click', () => {
+  const expanded = saibaMaisBtn.getAttribute('aria-expanded') === 'true';
+  saibaMaisBtn.setAttribute('aria-expanded', !expanded);
+  sobreContent.classList.toggle('hidden', expanded);
+  sobreContent.classList.toggle('block', !expanded);
+  arrowIcon.classList.toggle('rotate-90', !expanded);
+});
+</script>
+
 </body>
 </html>
